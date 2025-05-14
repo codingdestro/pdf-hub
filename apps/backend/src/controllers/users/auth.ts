@@ -10,30 +10,36 @@ export type TUser = {
 };
 
 export const login = async (req: Request, res: Response) => {
-  const body: TUser = req.body;
-  if (!body.name || !body.email || !body.password) {
-    res.status(400).json({ error: "Invalid user credentials" });
-    return;
+  try {
+    const body: TUser = req.body;
+    if (!body.name || !body.email || !body.password) {
+      res.status(400).json({ error: "Invalid user credentials" });
+      return;
+    }
+    const user = await User.findOne({ email: body.email });
+    console.log(user);
+    if (!user?.email) {
+      res.status(500).json({ error: "user not found!" });
+      return;
+    }
+
+    const isMatched = await comparePassword(body.password, user.password!);
+
+    if (!isMatched) {
+      res.status(500).json({ error: "password didn't match!" });
+      return;
+    }
+
+    const token = await createToken({
+      user_id: user._id.toString(),
+      name: user.name!,
+    });
+
+    res.status(200).json({ token });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err: "Internal server problem" });
   }
-  const user = await User.findOne({ email: body.email });
-  if (!user) {
-    res.status(500).json({ error: "user not found!" });
-    return;
-  }
-
-  const isMatched = await comparePassword(body.password, user.password!);
-
-  if (isMatched) {
-    res.status(500).json({ error: "password didn't match!" });
-    return;
-  }
-
-  const token = await createToken({
-    user_id: user._id.toString(),
-    name: user.name!,
-  });
-
-  res.status(200).json({ token });
 };
 
 export const signin = async (req: Request, res: Response) => {
@@ -43,7 +49,8 @@ export const signin = async (req: Request, res: Response) => {
     return;
   }
   const user = await User.findOne({ email: body.email });
-  if (user) {
+  console.log(user);
+  if (user?.email) {
     res.status(500).json({ error: "user already exists!" });
     return;
   }
