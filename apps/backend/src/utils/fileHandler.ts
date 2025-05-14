@@ -1,5 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import fs from "node:fs";
+import { indexOfLine } from "bun";
 
 export const mergePdf = async (files: string[]): Promise<Uint8Array> => {
   if (files.length < 2) {
@@ -18,5 +19,23 @@ export const mergePdf = async (files: string[]): Promise<Uint8Array> => {
   }
 
   const pdfBytes = await newPDF.save();
+  return pdfBytes;
+};
+
+export const extractPages = async (
+  filename: string,
+  indices: number[]
+): Promise<Uint8Array> => {
+  if (indices.length == 0) throw new Error("there should be at least indices");
+
+  const fileBuffer = fs.readFileSync(filename);
+  const doc = await PDFDocument.load(fileBuffer);
+
+  const newDoc = await PDFDocument.create();
+  for (let i = 0; i < indices.length; i++) {
+    const [page] = await newDoc.copyPages(doc, [indices[i]! - 1]);
+    newDoc.addPage(page);
+  }
+  const pdfBytes = await newDoc.save();
   return pdfBytes;
 };
