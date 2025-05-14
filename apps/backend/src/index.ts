@@ -6,6 +6,7 @@ import Database from "./config/db";
 const db = Database.getInstance();
 import loginRoute from "../src/routes/login.routes";
 import uploadRoute from "../src/routes/upload.routes";
+import filesRoute from "../src/routes/file.routes";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Handling routes
 app.use("/api", loginRoute);
 app.use("/api", uploadRoute);
+app.use("/api", filesRoute);
 
 db.connect();
 app.listen(PORT, () => console.log(`server is running on port -> ${PORT}`));
