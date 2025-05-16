@@ -3,7 +3,7 @@ import { createSecretKey } from "node:crypto";
 
 export type TUser = {
   user_id: string;
-  name: string;
+  email: string;
 };
 
 const SECRET_KEY = process.env.SECRET_KEY || "s3r3t";

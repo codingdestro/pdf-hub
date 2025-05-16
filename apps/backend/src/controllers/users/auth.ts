@@ -12,7 +12,7 @@ export type TUser = {
 export const login = async (req: Request, res: Response) => {
   try {
     const body: TUser = req.body;
-    if (!body.name || !body.email || !body.password) {
+    if (!body.email || !body.password) {
       res.status(400).json({ error: "Invalid user credentials" });
       return;
     }
@@ -32,7 +32,7 @@ export const login = async (req: Request, res: Response) => {
 
     const token = await createToken({
       user_id: user._id.toString(),
-      name: user.name!,
+      email: user.email!,
     });
 
     res.status(200).json({ token });
@@ -67,7 +67,7 @@ export const signin = async (req: Request, res: Response) => {
 
   const token = await createToken({
     user_id: newUser._id.toString(),
-    name: newUser.name!,
+    email: newUser.email!,
   });
 
   res.status(200).json({ token });
