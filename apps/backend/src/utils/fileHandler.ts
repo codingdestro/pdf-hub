@@ -1,6 +1,5 @@
 import { PDFDocument } from "pdf-lib";
 import fs from "node:fs";
-import { indexOfLine } from "bun";
 
 export const mergePdf = async (files: string[]): Promise<Uint8Array> => {
   if (files.length < 2) {
@@ -10,7 +9,7 @@ export const mergePdf = async (files: string[]): Promise<Uint8Array> => {
   const newPDF = await PDFDocument.create();
   for (let i = 0; i < files.length; i++) {
     const currentFile = files[i];
-    const documentPdf = fs.readFileSync(currentFile!);
+    const documentPdf = fs.readFileSync("uploads/" + currentFile!);
     const pdfDoc = await PDFDocument.load(documentPdf);
     for (let idx = 0; idx < pdfDoc.getPageCount(); idx += 1) {
       const [page] = await newPDF.copyPages(pdfDoc, [idx]);
