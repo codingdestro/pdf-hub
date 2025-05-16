@@ -25,9 +25,10 @@ export const extractPages = async (
   filename: string,
   indices: number[]
 ): Promise<Uint8Array> => {
-  if (indices.length == 0) throw new Error("there should be at least indices");
+  if (indices.length == 0)
+    throw new Error("there should be at one least indices");
 
-  const fileBuffer = fs.readFileSync(filename);
+  const fileBuffer = fs.readFileSync("uploads" + filename);
   const doc = await PDFDocument.load(fileBuffer);
 
   const newDoc = await PDFDocument.create();
@@ -35,6 +36,33 @@ export const extractPages = async (
     const [page] = await newDoc.copyPages(doc, [indices[i]! - 1]);
     newDoc.addPage(page);
   }
+  const pdfBytes = await newDoc.save();
+  return pdfBytes;
+};
+
+export const removePages = async (
+  filename: string,
+  indices: number[]
+): Promise<Uint8Array> => {
+  if (indices.length == 0)
+    throw new Error("there should be at one least indices");
+
+  const fileBuffer = fs.readFileSync("uploads" + filename);
+  const doc = await PDFDocument.load(fileBuffer);
+
+  const totalPages = doc.getPageCount();
+
+  const pagesToKeep = Array.from({ length: totalPages }, (_, i) => i).filter(
+    (pageIndex) => !indices.includes(pageIndex)
+  );
+  const newDoc = await PDFDocument.create();
+
+  const copiedPages = await newDoc.copyPages(doc, pagesToKeep);
+
+  copiedPages.forEach((page) => {
+    newDoc.addPage(page);
+  });
+
   const pdfBytes = await newDoc.save();
   return pdfBytes;
 };

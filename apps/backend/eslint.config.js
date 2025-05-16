@@ -20,7 +20,16 @@ export default [
       ...tsPlugin.configs.recommended.rules,
       "@typescript-eslint/no-unused-vars": "warn",
       "@typescript-eslint/no-explicit-any": "warn",
-      "prettier/prettier": "warn",
+      "prettier/prettier": [
+        "error",
+        {
+          trailingComma: "all", // ✅ Add this line
+          semi: true,
+          singleQuote: false,
+          arrowParens: "always",
+          // add other Prettier rules here if needed
+        },
+      ],
     },
     settings: {
       // Add any settings here if needed
