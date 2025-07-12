@@ -3,7 +3,7 @@ import FeaturedToolsCard from "./FeaturedToolsCard";
 
 const FeaturedTools = () => {
   return (
-    <section className="p-5 flex flex-col items-center h-[60vh]">
+    <section className="p-5 flex flex-col items-center min-h-[60vh] h-full">
       <div className="text-center py-5">
         <h1 className="text-3xl font-bold">Featured Tools</h1>
       </div>
