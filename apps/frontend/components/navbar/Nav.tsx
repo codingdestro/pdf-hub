@@ -12,6 +12,10 @@ const navlinks = [
     href: "/#about",
   },
   {
+    name: "Services",
+    href: "/#services",
+  },
+  {
     name: "Contact",
     href: "/contact",
   },
@@ -36,7 +40,7 @@ const Nav = () => {
   }, []);
   return (
     <div className="w-full flex items-center justify-between px-5 py-3 border">
-      <div className="text-2xl font-bold">Luxe</div>
+      <Link href={"/"} className="text-2xl font-bold">Luxe</Link>
 
       <div className="hidden sm:block">
         {navlinks.map((link, index) => (
