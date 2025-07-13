@@ -37,7 +37,7 @@ const connectLinks = [
 
 const Footer = () => {
   return (
-    <section className="p-9 mn-h[40vh] bg-gray-900/10 ">
+    <section className="p-9 mn-h[40vh] bg-gray-700/10 border-t-amber-300 border-t-8" id="about">
       <div className="flex flex-wrap items-start justify-center gap-y-5 gap-x-[20%]">
         <div className="flex flex-col items-center justify-center gap-2">
           <h1 className="font-bold text-2xl">Quick Links</h1>

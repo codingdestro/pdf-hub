@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 
 const navlinks = [
@@ -8,7 +9,7 @@ const navlinks = [
   },
   {
     name: "About",
-    href: "/about",
+    href: "/#about",
   },
   {
     name: "Contact",
@@ -39,13 +40,13 @@ const Nav = () => {
 
       <div className="hidden sm:block">
         {navlinks.map((link, index) => (
-          <a
+          <Link
             key={index}
             href={link.href}
-            className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+            className="text-gray-700 hover:text-gray-900 hover:underline px-5 py-2 rounded-md text-sm font-medium"
           >
             {link.name}
-          </a>
+          </Link>
         ))}
       </div>
 
